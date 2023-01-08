@@ -37,7 +37,10 @@ module.exports = {
         throw err;
       });
     },
-    createNote: (args) => {
+    createNote: (args, req) => {
+      if(!req.isAuth) {
+        throw new Error("Unauthorized");
+      }
       note = new Note({
         title: args.noteInput.title,
         content: args.noteInput.content,
@@ -64,7 +67,10 @@ module.exports = {
         throw err;
       });
     },
-    deleteNote: args => {
+    deleteNote: (args, req) => {
+      if(!req.isAuth) {
+        throw new Error("Unauthorized");
+      }
         let deletedNote;
         return Note.findById(args.id)
         .populate('user')
